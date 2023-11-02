@@ -1,0 +1,33 @@
+ 1: DateTime
+ 2: Name
+ 3: Battery_{Min}
+ 4: LithiumBattery_{Min}
+ 5: PanelTemp_{Max}
+ 6: CS215Error_{Tot}
+ 7: Tair_{Avg}
+ 8: RH_{Avg}
+ 9: e_{Avg}
+10: e_{s, Avg}
+11: WindSonicError_{Tot}
+12: WindSpd_{Max}
+13: WindSpd_{Std}
+14: WindSpd_{Avg}
+15: WindDir_{Avg}
+16: WindDir_{Std}
+17: WindDirError_{Tot}
+18: Rain_{Tot}
+19: SR01Up_{Avg}
+20: SR01Dn_{Avg}
+21: IR01Up_{Avg}
+22: IR01Dn_{Avg}
+23: Tir01_{Avg}
+24: Tglobe_{Avg}
+25: Mir01
+26: T_{sky}
+27: T_{surface}
+28: NetRs
+29: NetRl
+30: NetR
+31: TotUp
+32: TotDn
+33: Albedo
