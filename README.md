@@ -10,7 +10,7 @@ Steps to create probability density functions for TU Delft weather stations of w
 6. Add the desired plot title to the ```plot_titles``` dictionary if it is not already there.
 7. Run ```python create_plots.py```
 
-Note: log-normal fitting only makes sense for speed. It does not really fir for the wind directions. Code should be modified for wind direction plots.
+Note: log-normal fitting only makes sense for speed. It does not really fit for the wind directions. Code should be modified for wind direction plots.
 
 ## Python requirements
 1. pandas
