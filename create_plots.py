@@ -18,7 +18,7 @@ data_dir = 'data'
 # STEP 1: read in the column names from fields.txt
 
 # read in the column names,  remove new line characters, and empty spaces
-with open('fields.txt', 'r') as file:
+with open('data/fields.txt', 'r') as file:
    columns = file.readlines()
 columns = [column.rstrip('\n') for column in columns]
 columns = [column.split(" ")[-1] for column in columns]
@@ -87,6 +87,12 @@ for weather_station in weather_stations:
 
 
 # STEP 5: create plots
+
+if os.path.exists("images") and os.path.isdir("images"):
+    print("Generating the plots....") 
+else:
+    print("Creating images/ folder....")
+    os.makedirs("images")
 
 # create individual plots for each weather_station comparing it to
 for weather_station, fit_dict in fit_parameters.items():
