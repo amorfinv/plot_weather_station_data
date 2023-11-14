@@ -71,7 +71,7 @@ def knmi1hrplotdata(df, stations, column_to_plot, plot_data):
         # get station data and the column to plot and remove NaNs 
         data_to_fit = df[column_to_plot]
         data_to_fit = data_to_fit.dropna()
-        data_to_fit = data_to_fit.to_numpy()
+        data_to_fit = data_to_fit.to_numpy() * 0.1
 
         # fit to log normal plot
         shape, loc, scale = stats.lognorm.fit(data_to_fit)

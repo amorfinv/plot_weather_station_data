@@ -68,6 +68,9 @@ def make_images(plot_data, date_range, plot_title, plot_lognormal):
     filename = filename.replace(" ", "").lower()
 
     for weather_station, fit_dict in plot_data.items():
+
+        if weather_station == 'Rotterdam locatie 24t':
+            continue
         plt.plot(fit_dict['x_plot'], fit_dict['y_plot'], label=weather_station)
 
     plt.xlabel(x_axis_label)

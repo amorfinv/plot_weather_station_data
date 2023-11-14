@@ -48,7 +48,7 @@ def knmi10minplotdata(df, stations, column_to_plot, plot_data):
         station_df = df.loc[df['NAME'] == station]
         data_to_fit = station_df[column_to_plot]
         data_to_fit = data_to_fit.dropna()
-        data_to_fit = data_to_fit.to_numpy() * 0.1
+        data_to_fit = data_to_fit.to_numpy()
 
         # fit to log normal plot
         shape, loc, scale = stats.lognorm.fit(data_to_fit)
