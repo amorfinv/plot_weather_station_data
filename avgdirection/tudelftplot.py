@@ -1,4 +1,7 @@
+import pandas as pd
+import os
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy import stats
 import utils
 
@@ -20,6 +23,7 @@ def tudelftplot(config, date_range, plot_data):
 
     return plot_data
 
+
 def tudelftplotdata(df, stations, column_to_plot, plot_data):
 
     # STEP 4: create log normal fit for each weather station
@@ -31,26 +35,10 @@ def tudelftplotdata(df, stations, column_to_plot, plot_data):
         data_to_fit = data_to_fit.dropna()
         data_to_fit = data_to_fit.to_numpy()
 
-        # fit to log normal plot
-        shape, loc, scale = stats.lognorm.fit(data_to_fit)
-        
-        # perform statistical test
-        res = stats.kstest(data_to_fit, 'lognorm', args=(shape, loc, scale))
-
-        # create arrays with fit to plot later
-        x = np.linspace(data_to_fit.min(), data_to_fit.max(), 100)
-        fitted_lognormal = stats.lognorm.pdf(x, shape, loc, scale)
-
+       
         # save fit parameters
         plot_data[station] = {
-                'shape': shape, 
-                'loc': loc, 
-                'scale': scale, 
-                'p': res.pvalue,
-                'stat': res.statistic,
                 'data': data_to_fit,
-                'x_plot': x,
-                'y_plot': fitted_lognormal
                 }
 
     return plot_data

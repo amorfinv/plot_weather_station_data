@@ -1,5 +1,3 @@
-import numpy as np
-from scipy import stats
 import utils
 
 def knmi1hrplot(config, date_range, plot_data):
@@ -29,28 +27,11 @@ def knmi1hrplotdata(df, stations, column_to_plot, plot_data):
         # get station data and the column to plot and remove NaNs 
         data_to_fit = df[column_to_plot]
         data_to_fit = data_to_fit.dropna()
-        data_to_fit = data_to_fit.to_numpy() * 0.1
-
-        # fit to log normal plot
-        shape, loc, scale = stats.lognorm.fit(data_to_fit)
-        
-        # perform statistical test
-        res = stats.kstest(data_to_fit, 'lognorm', args=(shape, loc, scale))
-
-        # create arrays with fit to plot later
-        x = np.linspace(data_to_fit.min(), data_to_fit.max(), 100)
-        fitted_lognormal = stats.lognorm.pdf(x, shape, loc, scale)
+        data_to_fit = data_to_fit.to_numpy()
 
         # save fit parameters
         plot_data[station] = {
-                'shape': shape, 
-                'loc': loc, 
-                'scale': scale, 
-                'p': res.pvalue,
-                'stat': res.statistic,
                 'data': data_to_fit,
-                'x_plot': x,
-                'y_plot': fitted_lognormal
                 }
 
     return plot_data
