@@ -6,7 +6,11 @@ from avgspeed.knmi1hrplot import knmi1hrplot
 from avgspeed.knmi10minplot import knmi10minplot
 
 
-def make_speed_plots(source_config_dict, date_range, plot_title):
+def make_speed_plots(source_config_dict, plot_config):
+
+    plot_lognormal = plot_config['plot_lognormal']
+    plot_title = plot_config['plot_title']
+    date_range = plot_config['date_range']
 
     # gather plotting data here
     plot_data = {}
@@ -20,10 +24,10 @@ def make_speed_plots(source_config_dict, date_range, plot_title):
     if 'knmi10min' in source_config_dict:
         plot_data = knmi10minplot(source_config_dict['knmi10min'], date_range, plot_data)
 
-    make_images(plot_data, date_range, plot_title)
+    make_images(plot_data, date_range, plot_title, plot_lognormal)
 
 
-def make_images(plot_data, date_range, plot_title):
+def make_images(plot_data, date_range, plot_title, plot_lognormal):
 
     # create individual plots for each weather_station comparing it to
     for weather_station, fit_dict in plot_data.items():
@@ -41,7 +45,10 @@ def make_images(plot_data, date_range, plot_title):
         # start plot
         plt.figure()
         plt.hist(fit_dict['data'], bins='auto', density=True, label='Weather station data')
-        plt.plot(fit_dict['x_plot'], fit_dict['y_plot'], 'r-', label='Fitted Log-normal Distribution')
+
+        if plot_lognormal:
+            plt.plot(fit_dict['x_plot'], fit_dict['y_plot'], 'r-', label='Fitted Log-normal Distribution')
+
         plt.xlabel(x_axis_label)
         plt.ylabel('Probability density function')
         plt.legend()    

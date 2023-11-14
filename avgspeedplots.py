@@ -4,12 +4,13 @@ from avgspeed import speedplot
 
 def main():
 
-    plot_lognormal = True
+    plot_config = {
+        'parent_dir': 'data',
+        'plot_lognormal': True,
+        'plot_title': 'Average wind speeds',
+        'date_range': ['2022-01-01','2022-12-31']
+    }
     
-    parent_dir = 'data'
-
-    plot_title = 'Average wind speeds'
-      
 
     source_config_dict = {
         'tudelft': {
@@ -26,11 +27,10 @@ def main():
         }
     }
     
-    date_range = ['2022-01-01','2022-12-31']
 
     # STEP 1 prep data directories
     data_directories = utils.prep_directories(
-        parent_dir=parent_dir, 
+        parent_dir=plot_config['parent_dir'], 
         data_sources=source_config_dict.keys()
         )
     
@@ -39,7 +39,7 @@ def main():
 
     
     # STEP 2:
-    speedplot.make_speed_plots(source_config_dict, date_range, plot_title)
+    speedplot.make_speed_plots(source_config_dict, plot_config)
 
 
 if __name__ == '__main__':
