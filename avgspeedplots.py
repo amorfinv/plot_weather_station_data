@@ -6,7 +6,7 @@ def main():
 
     plot_config = {
         'parent_dir': 'data',
-        'plot_lognormal': True,
+        'plot_lognormal': False,
         'plot_title': 'Average wind speeds',
         'date_range': ['2022-01-01','2022-12-31']
     }
