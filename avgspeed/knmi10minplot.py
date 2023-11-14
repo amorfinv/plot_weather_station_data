@@ -10,7 +10,7 @@ def knmi10minplot(config, date_range, plot_data):
     data_path = config['path']
 
     # create the filtered dataframe
-    df = utils.knmi10mindf(data_path, column_to_plot, date_range, stations)
+    df = utils.knmi10mindf(data_path, date_range, stations)
 
     # get plot data
     plot_data = knmi10minplotdata(df, stations, column_to_plot, plot_data)

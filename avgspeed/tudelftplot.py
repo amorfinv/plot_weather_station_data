@@ -13,7 +13,7 @@ def tudelftplot(config, date_range, plot_data):
     header_columns = utils.tudelftheaders(data_path)
 
     # create the filtered dataframe
-    df = utils.tudelftdf(data_path, column_to_plot, date_range, header_columns, stations)
+    df = utils.tudelftdf(data_path, date_range, header_columns, stations)
 
     # get plot data
     plot_data = tudelftplotdata(df, stations, column_to_plot, plot_data)

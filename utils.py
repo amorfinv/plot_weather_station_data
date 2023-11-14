@@ -105,7 +105,7 @@ def fixPlot(thickness=1.5, fontsize=20, markersize=8, labelsize=15, texuse=False
     plt.rcParams['ytick.direction'] = 'in'
 
 
-def tudelftdf(data_path, column_to_plot, date_range, header_columns, stations):
+def tudelftdf(data_path, date_range, header_columns, stations):
 
     # generic arguments for reading csv data
     csv_args = { 
@@ -156,7 +156,7 @@ def knmi1hrheaders(data_path):
 
     return columns
 
-def knmi1hrdf(data_path, column_to_plot, date_range, header_columns, stations):
+def knmi1hrdf(data_path, date_range, header_columns, stations):
 
     # generic arguments for reading csv data
     csv_args = { 
@@ -188,7 +188,7 @@ def knmi1hrdf(data_path, column_to_plot, date_range, header_columns, stations):
 
     return filtered_wind_df
 
-def knmi10mindf(data_path, column_to_plot, date_range, stations):
+def knmi10mindf(data_path, date_range, stations):
 
     # read parquet
     dataframe_path = os.path.join(data_path, 'knmi10min.parquet')

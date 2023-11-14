@@ -4,7 +4,8 @@ def knmi1hrplot(config, date_range, plot_data):
     
     # read config
     stations = config['stations']
-    column_to_plot = config['column']
+    avgspeedcol = config['avgspeedcol']
+    stdspeedcol = config['stdspeedcol']
     data_path = config['path']
 
     # get header columns
@@ -14,24 +15,27 @@ def knmi1hrplot(config, date_range, plot_data):
     df = utils.knmi1hrdf(data_path, date_range, header_columns, stations)
 
     # get plot data
-    plot_data = knmi1hrplotdata(df, stations, column_to_plot, plot_data)
+    plot_data = knmi1hrplotdata(df, stations, avgspeedcol, stdspeedcol, plot_data)
 
     return plot_data
 
 
-def knmi1hrplotdata(df, stations, column_to_plot, plot_data):
+def knmi1hrplotdata(df, stations, avgspeedcol, stdspeedcol, plot_data):
 
     # STEP 4: create log normal fit for each weather station
     for station in stations:
         
-        # get station data and the column to plot and remove NaNs 
-        data_to_fit = df[column_to_plot]
-        data_to_fit = data_to_fit.dropna()
-        data_to_fit = data_to_fit.to_numpy()
+        avgspeed = df[avgspeedcol]
+        avgspeed = avgspeed.dropna()
+        avgspeed = avgspeed.to_numpy()* 0.1
+
+        stdspeed = df[stdspeedcol]
+        stdspeed = stdspeed.dropna()
+        stdspeed = stdspeed.to_numpy()* 0.1
 
         # save fit parameters
         plot_data[station] = {
-                'data': data_to_fit,
+                'avgspeed': avgspeed,
+                'stdspeed': stdspeed
                 }
-
     return plot_data

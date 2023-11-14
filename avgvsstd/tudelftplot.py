@@ -1,15 +1,11 @@
-import pandas as pd
-import os
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
 import utils
 
 def tudelftplot(config, date_range, plot_data):
     
     # read config
     stations = config['stations']
-    column_to_plot = config['column']
+    avgspeedcol = config['avgspeedcol']
+    stdspeedcol = config['stdspeedcol']
     data_path = config['path']
 
     # get header columns
@@ -19,26 +15,29 @@ def tudelftplot(config, date_range, plot_data):
     df = utils.tudelftdf(data_path, date_range, header_columns, stations)
 
     # get plot data
-    plot_data = tudelftplotdata(df, stations, column_to_plot, plot_data)
+    plot_data = tudelftplotdata(df, stations, avgspeedcol, stdspeedcol, plot_data)
 
     return plot_data
 
-
-def tudelftplotdata(df, stations, column_to_plot, plot_data):
+def tudelftplotdata(df, stations, avgspeedcol, stdspeedcol, plot_data):
 
     # STEP 4: create log normal fit for each weather station
     for station in stations:
     
         # get station data and the column to plot and remove NaNs 
         station_df = df.loc[df['Name'] == station]
-        data_to_fit = station_df[column_to_plot]
-        data_to_fit = data_to_fit.dropna()
-        data_to_fit = data_to_fit.to_numpy()
+        avgspeed = station_df[avgspeedcol]
+        avgspeed = avgspeed.dropna()
+        avgspeed = avgspeed.to_numpy()
 
-       
+        stdspeed = station_df[stdspeedcol]
+        stdspeed = stdspeed.dropna()
+        stdspeed = stdspeed.to_numpy()
+
         # save fit parameters
         plot_data[station] = {
-                'data': data_to_fit,
+                'avgspeed': avgspeed,
+                'stdspeed': stdspeed
                 }
 
     return plot_data

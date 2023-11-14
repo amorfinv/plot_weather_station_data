@@ -13,7 +13,7 @@ def knmi1hrplot(config, date_range, plot_data):
     header_columns = utils.knmi1hrheaders(data_path)
 
     # create the filtered dataframe
-    df = utils.knmi1hrdf(data_path, column_to_plot, date_range, header_columns, stations)
+    df = utils.knmi1hrdf(data_path, date_range, header_columns, stations)
 
     # get plot data
     plot_data = knmi1hrplotdata(df, stations, column_to_plot, plot_data)
