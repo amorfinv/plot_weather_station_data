@@ -36,7 +36,6 @@ def make_images(plot_data, date_range, plot_title):
     num_bins = 64
     figx, figy = 10,10
 
-    plot_num = 0
     for weather_station, fit_dict in plot_data.items():
 
         data_to_plot = fit_dict['data']
