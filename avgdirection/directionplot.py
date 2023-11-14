@@ -1,5 +1,6 @@
 import os
 import matplotlib.pyplot as plt
+import numpy as np
 
 from avgdirection.tudelftplot import tudelftplot
 from avgdirection.knmi1hrplot import knmi1hrplot
@@ -23,6 +24,7 @@ def make_direction_plots(source_config_dict, plot_config):
     if 'knmi10min' in source_config_dict:
         plot_data = knmi10minplot(source_config_dict['knmi10min'], date_range, plot_data)
 
+   
     make_images(plot_data, date_range, plot_title)
 
 
@@ -31,50 +33,42 @@ def make_images(plot_data, date_range, plot_title):
     utils.fixPlot(thickness=1.5, fontsize=25, markersize=8, labelsize=20, texuse=True, tickSize = 15)
 
     # create individual plots for each weather_station comparing it to
-    for weather_station, fit_dict in plot_data.items():
-        
-        # get the plot title from configuration
-        plot_title = plot_title
+    num_bins = 64
+    figx, figy = 10,10
 
+    plot_num = 0
+    for weather_station, fit_dict in plot_data.items():
+
+        data_to_plot = fit_dict['data']
+        
+        # get the plot title from configuratio
         # get filename
         filename = '_'.join([weather_station, plot_title, *date_range]) + '.png'
         filename = filename.replace(" ", "").lower()
         
-        # get the x axis name depending on what is being plotted    
-        x_axis_label = 'Wind Speed (m/s)' if 'speed' in filename else 'Wind Direction (degrees)'
+        # Calculate bin edges and centers for wind directions
+        bin_edges = np.linspace(0, 360, num_bins + 1, endpoint=True)
+        bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
+        # Compute the histogram
+        windHist, _ = np.histogram(data_to_plot,bins=bin_edges)
+        
+        plt.figure(figsize=(figx,figy))
+        
+        ax = plt.subplot(1,1,1,polar=True)
+        # Plot windrose histogram
+        ax.bar(np.radians(bin_centers), windHist, width=np.radians(360 / num_bins),  
+            align="center", color="red", edgecolor="black")
+        
+        # Customize the windrose plot
+        ax.tick_params(axis='both', pad=20)
+        ax.set_theta_offset(np.radians(90))  
+        ax.set_theta_direction(-1)  
+        ax.set_rlabel_position(0)  
+        ax.set_rticks([])  
+        
+        ax.set_title(weather_station, va='bottom')
 
-        # start plot
-        plt.figure()
-        plt.hist(fit_dict['data'], bins='auto', density=True, label='Weather station data')
 
-
-        plt.xlabel(x_axis_label)
-        plt.ylabel('Probability density function')
-        plt.legend()    
-        plt.title(f'PDF of {plot_title} for {weather_station} weather station \n from {date_range[0]} to {date_range[1]}')
         plt.savefig(os.path.join('images', filename))
         plt.close()
 
-    # crete combined plots
-
-    plt.figure()
-
-    # get the plot title from configuration and xlabel
-    plot_title = plot_title
-    x_axis_label = 'Wind Speed (m/s)' if 'speed' in plot_title else 'Wind Direction (degrees)'
-
-    filename = '_'.join(['stationcomparison', plot_title, *date_range]) + '.png'
-    filename = filename.replace(" ", "").lower()
-
-    for weather_station, fit_dict in plot_data.items():
-
-        if weather_station == 'Rotterdam locatie 24t':
-            continue
-        plt.plot(fit_dict['x_plot'], fit_dict['y_plot'], label=weather_station)
-
-    plt.xlabel(x_axis_label)
-    plt.ylabel('Probability density function')
-    plt.legend()    
-    plt.title(f'Log-normal comparisions of {plot_title} \n from {date_range[0]} to {date_range[1]}')
-    plt.savefig(os.path.join('images', filename))
-    plt.close()

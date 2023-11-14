@@ -31,9 +31,6 @@ def make_images(plot_data, date_range, plot_title, plot_lognormal):
 
     # create individual plots for each weather_station comparing it to
     for weather_station, fit_dict in plot_data.items():
-        
-        # get the plot title from configuration
-        plot_title = plot_title
 
         # get filename
         filename = '_'.join([weather_station, plot_title, *date_range]) + '.png'
