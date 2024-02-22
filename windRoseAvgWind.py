@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from functions import fixPlot
 
-num_bins = 64
-figx, figy = 10,8
+num_bins = int(360/5)
+figx, figy = 10,10
 range_to_plot = ['2022-01-01','2022-12-31']
 
 # read in the column names,  remove new line characters, and empty spaces
@@ -24,8 +24,8 @@ csv_args = {
     'comment': '^'
 }
 # Read the database
-stations = ['Oost', 'Ommoord', 'Bolnes', 'SpaansePolder', 'Ridderkerk', 'Heijplaat', 'Delfshaven']
-#stations = ['Delfshaven']  # Uncomment to debug
+#stations = ['Oost', 'Ommoord', 'Bolnes', 'SpaansePolder', 'Ridderkerk', 'Heijplaat', 'Delfshaven']
+stations = ['Delfshaven']  # Uncomment to debug
 fixPlot(thickness=1.5, fontsize=25, markersize=8, labelsize=20, texuse=True, tickSize = 15)
 for iternum in range(len(stations)):
     filein='data/'+stations[iternum]+'.csv'
@@ -43,6 +43,7 @@ for iternum in range(len(stations)):
     # Calculate bin edges and centers for wind directions
     bin_edges = np.linspace(0, 360, num_bins + 1, endpoint=True)
     bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
+    print(bin_edges)
     # Compute the histogram
     windHist, _ = np.histogram(df_filtered['WindDir_{Avg}'],bins=bin_edges)
     fig = plt.figure(iternum+1,figsize=(figx,figy))
